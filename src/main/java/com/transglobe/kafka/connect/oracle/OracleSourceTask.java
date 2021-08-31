@@ -299,6 +299,9 @@ public class OracleSourceTask extends SourceTask {
 					String segName = logMinerData.getString(TABLE_NAME_FIELD);
 					String sqlRedo = logMinerData.getString(SQL_REDO_FIELD);
 					String operation = logMinerData.getString(OPERATION_FIELD);
+					String rsId = logMinerData.getString("RS_ID");
+					Long ssn = logMinerData.getLong("SSN");
+					
 					if (sqlRedo.contains(TEMPORARY_TABLE)) continue;
 					if (operation.equals(OPERATION_DDL) && (logMinerData.getString("INFO").startsWith("INTERNAL DDL"))) continue;
 					while(contSF){
@@ -309,7 +312,7 @@ public class OracleSourceTask extends SourceTask {
 					sqlX=sqlRedo;        
 					Timestamp timeStamp=logMinerData.getTimestamp(TIMESTAMP_FIELD);
 
-					Data row = new Data(scn, segOwner, segName, sqlRedo,timeStamp,operation);
+					Data row = new Data(scn, segOwner, segName, sqlRedo,timeStamp,operation,rsId,ssn);
 					topic = config.getTopic().equals("") ? (config.getDbNameAlias()+DOT+row.getSegOwner()+DOT+(operation.equals(OPERATION_DDL) ? DDL_TOPIC_POSTFIX : segName)).toUpperCase() : topic;
 					//log.info(String.format("Fetched %s rows from database %s ",ix,config.getDbNameAlias())+" "+row.getTimeStamp()+" "+row.getSegName()+" "+row.getScn()+" "+commitScn);
 					if (ix % 100 == 0) log.info(String.format("Fetched %s rows from database %s ",ix,config.getDbNameAlias())+" "+row.getTimeStamp());
@@ -420,6 +423,8 @@ public class OracleSourceTask extends SourceTask {
 
 	private Struct setValueV2(Data row,DataSchemaStruct dataSchemaStruct) {    
 		Struct valueStruct = new Struct(dataSchemaStruct.getDmlRowSchema())
+				.put("RS_ID", row.getRsId())
+				.put("SSN", row.getSsn())
 				.put(SCN_FIELD, row.getScn())
 				.put(SEG_OWNER_FIELD, row.getSegOwner())
 				.put(TABLE_NAME_FIELD, row.getSegName())

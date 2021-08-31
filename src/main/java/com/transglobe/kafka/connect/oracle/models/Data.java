@@ -15,8 +15,10 @@ public class Data{
     private String sqlRedo;
     private Timestamp timeStamp;
     private String operation;
+    private String rsId = null;
+    private Long ssn = 0L;
 
-    public Data(Long scn,String segOwner,String segName,String sqlRedo,Timestamp timeStamp,String operation){
+    public Data(Long scn,String segOwner,String segName,String sqlRedo,Timestamp timeStamp,String operation, String rsId, Long ssn){
         super();
         this.scn=scn;
         this.segOwner=segOwner;
@@ -24,6 +26,8 @@ public class Data{
         this.sqlRedo=sqlRedo;
         this.timeStamp=timeStamp;
         this.operation=operation;
+        this.rsId = rsId;
+        this.ssn = ssn;
     }
 
     public long getScn(){
@@ -73,4 +77,20 @@ public class Data{
     public void setOperation(String operation){
         this.operation=operation;
     }
+    
+    public String getRsId() {
+		return rsId;
+	}
+
+	public void setRsId(String rsId) {
+		this.rsId = rsId;
+	}
+
+	public Long getSsn() {
+		return ssn;
+	}
+
+	public void setSsn(Long ssn) {
+		this.ssn = ssn;
+	}
 }
