@@ -51,7 +51,6 @@ archive log mod : disabled
 ########################################## Connector #######################################
 curl http://localhost:8083
 
-http://localhost:8083
 =>{"version":"2.7.0","commit":"448719dc99a19793","kafka_cluster_id":"lNaoMMWMQxSN1TDBN_2QHA"}
 http://localhost:8083/connectors
 =>["oracle-logminer-connector"]
@@ -63,7 +62,9 @@ http://localhost:8083/connectors/oracle-logminer-connector/tasks
 =>[{"id":{"connector":"oracle-logminer-connector","task":0},"config":{"connector.class":"com.transglobe.kafka.connect.oracle.OracleSourceConnector","reset.offset":"true","db.hostname":"10.67.67.63","tasks.max":"1","db.user.password":"ls_ebaopwd","table.blacklist":"","table.whitelist":"ls_ebao.TEST_T_POLICY_HOLDER,ls_ebao.TEST_T_INSURED_LIST,ls_ebao.TEST_T_CONTRACT_BENE,ls_ebao.TEST_T_ADDRESS","db.user":"ls_ebao","task.class":"com.transglobe.kafka.connect.oracle.OracleSourceTask","start.scn":"","db.fetch.size":"1","db.port":"1521","name":"oracle-logminer-connector","multitenant":"false","topic":"","parse.dml.data":"true","db.name":"ebaouat1","db.name.alias":"ebaouat1"}}]
 http://localhost:8083/connectors/oracle-logminer-connector/tasks/0/status
 =>{"id":0,"state":"FAILED","worker_id":"127.0.0.1:8083","trace":"org.apache.kafka.connect.errors.ConnectException: Error at database tier, Please check : java.sql.SQLException: ORA-01325: archive log mode must be enabled to build into the logstream\nORA-06512: at \"SYS.DBMS_LOGMNR\", line 58\nORA-06512: at line 2\n\n\tat com.transglobe.kafka.connect.oracle.OracleSourceTask.start(OracleSourceTask.java:225)\n\tat org.apache.kafka.connect.runtime.WorkerSourceTask.execute(WorkerSourceTask.java:232)\n\tat org.apache.kafka.connect.runtime.WorkerTask.doRun(WorkerTask.java:185)\n\tat org.apache.kafka.connect.runtime.WorkerTask.run(WorkerTask.java:234)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\n\tat java.lang.Thread.run(Thread.java:748)\n"}
+
 curl -X POST http://localhost:8083/connectors/oracle-logminer-connector/restart
+
 curl -X POST http://localhost:8083/connectors/oracle-logminer-connector/tasks/0/restart
 
 

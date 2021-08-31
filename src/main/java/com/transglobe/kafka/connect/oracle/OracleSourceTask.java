@@ -373,6 +373,9 @@ public class OracleSourceTask extends SourceTask {
 		log.info("Stop called for logminer");
 		this.closed=true;
 		
+		log.info("S>>> call updateStreamingEtlLogminerState, state = {}", CommonConstants.STREAMING_ETL_LOGMINER_STATE_SHUTDOWN);
+		LogminerUtils.updateStreamingEtlLogminerState(dbConn, CommonConstants.STREAMING_ETL_LOGMINER_STATE_SHUTDOWN);
+		
 		long logminerState = 0L;
 		try {            
 			log.info("Logminer session cancel");
@@ -401,9 +404,6 @@ public class OracleSourceTask extends SourceTask {
 				log.error(">>> log Logminer state error");
 				LogminerUtils.updateStreamingEtlLogminerState(dbConn, CommonConstants.STREAMING_ETL_LOGMINER_STATE_ERROR);
 			}
-			
-			log.info("S>>> call updateStreamingEtlLogminerState, state = {}", CommonConstants.STREAMING_ETL_LOGMINER_STATE_SHUTDOWN);
-			LogminerUtils.updateStreamingEtlLogminerState(dbConn, CommonConstants.STREAMING_ETL_LOGMINER_STATE_SHUTDOWN);
 			
 			if (dbConn != null) {
 				try {
