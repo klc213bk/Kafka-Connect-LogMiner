@@ -133,6 +133,8 @@ public class LogMinerThread implements Runnable {
 								log.error("Logminer start exception {} , {}",se.getMessage(),iError);
 								if (iError>10){
 									log.error("Logminer could not start successfully and it will exit");
+									logminerState = CommonConstants.STREAMING_ETL_LOGMINER_STATE_ERROR;
+									
 									return;
 								}                
 								log.info("Waiting for log switch");
